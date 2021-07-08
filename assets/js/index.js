@@ -55,7 +55,7 @@ function showData(data) {
             'rgb(54, 162, 235)',
             'rgb(255, 205, 86)',
           ],
-          data: [data.TotalConfirmed, data.TotalDeaths, data.TotalRecovered],
+          data: [data.TotalConfirmed, data.TotalRecovered, data.TotalDeaths],
         },
       ],
     },
