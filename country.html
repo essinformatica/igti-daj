@@ -26,7 +26,6 @@
           <ul class="navbar-nav nav main-nav">
             <li><a href="./index.html">Home</a></li>
             <li><a href="./country.html">País</a></li>
-            <li><a href="#">Top 5</a></li>
           </ul>
         </div>
       </div>
@@ -38,7 +37,7 @@
           <div class="chart-title">Filtro</div>
           <div class="chart-stage">
             <div>
-              <h3>Data início</h3>
+              <h3>Início</h3>
               <input
                 style="font-size: 20px"
                 type="date"
@@ -46,7 +45,7 @@
                 id="date_start"
                 min="2020-01-01"
               />
-              <h3>Data fim</h3>
+              <h3>Fim</h3>
               <input
                 style="font-size: 20px"
                 type="date"
@@ -70,9 +69,8 @@
                 <option value="Deaths" selected>Número de Óbitos</option>
                 <option value="Recovered">Recuperados</option>
               </select>
-              <div></div>
               <div class="btn">
-                <button style="font-size: 20px" type="submit" id="filtro">
+                <button onclick="updateData()" style="font-size: 20px" type="submit" id="filtro">
                   Aplicar
                 </button>
               </div>
@@ -116,6 +114,6 @@
     </div>
 
     <!-- Project Analytics -->
-    <script src="/assets/js/country.js"></script>
+    <script src="./assets/js/country.js"></script>
   </body>
 </html>
