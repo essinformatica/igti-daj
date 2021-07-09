@@ -75,7 +75,8 @@ function getGlobalSummary() {
     });
 }
 
-function showData(data) {
+// print the data and draw the pie chart
+function showDataAndDrawPieChart(data) {
   const confirmed = document.getElementById('confirmed');
   const death = document.getElementById('death');
   const recovered = document.getElementById('recovered');
@@ -129,18 +130,8 @@ function showData(data) {
   });
 }
 
-getGlobalSummary();
-
-(async () => {
-  let response = await Promise.allSettled([
-    fetch('https://api.covid19api.com/summary'),
-  ]);
-
-  if (response[0].status == 'fulfilled') {
-    loadChartBar(await response[0].value.json());
-  }
-})();
-function loadChartBar(data) {
+// draw the bar chart
+function drawBarChart(data) {
   let oCountries = data.Countries.map((country) => {
     const { Country, TotalDeaths } = country;
 
