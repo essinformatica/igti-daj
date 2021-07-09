@@ -1,22 +1,17 @@
-function getGlobalSummary() {
-  fetch('https://api.covid19api.com/summary')
-    .then(function (response) {
-      if (response.ok) {
-        return response.json().then(function (json) {
-          showData(json.Global);
-        });
-      } else {
-        console.log('Network response was not ok.');
-      }
-    })
-    .catch(function (error) {
-      console.log(
-        'There has been a problem with your fetch operation: ' + error.message
-      );
-    });
-}
+// get the summary from the covid 19 API
+(async () => {
+  let response = await Promise.allSettled([
+    axios.get('https://api.covid19api.com/summary'),
+  ]);
 
-function showData(data) {
+  if (response[0].status == 'fulfilled') {
+    drawBarChart(await response[0].value.json());
+    showDataAndDrawPieChart(await response[0].value.json());
+  }
+})();
+
+// print the data and draw the pie chart
+function showDataAndDrawPieChart(data) {
   const confirmed = document.getElementById('confirmed');
   const death = document.getElementById('death');
   const recovered = document.getElementById('recovered');
@@ -70,18 +65,8 @@ function showData(data) {
   });
 }
 
-getGlobalSummary();
-
-(async () => {
-  let response = await Promise.allSettled([
-    fetch('https://api.covid19api.com/summary'),
-  ]);
-
-  if (response[0].status == 'fulfilled') {
-    loadChartBar(await response[0].value.json());
-  }
-})();
-function loadChartBar(data) {
+// draw the bar chart
+function drawBarChart(data) {
   let oCountries = data.Countries.map((country) => {
     const { Country, TotalDeaths } = country;
 
