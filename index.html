@@ -18,59 +18,65 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-
+<!-- 
     <link
       rel="stylesheet"
       type="text/css"
       href="./assets/css/keen-dashboards.css"
-    />
-  </head>
+    /> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/css/style.css" />  
+</head>
 
-  <body class="keen-dashboard">
+  <body class="dashboard">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse container" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="./index.html">Home</a>
+                <a class="nav-item nav-link" href="./country.html">Country</a>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
-      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="navbar-collapse">
-          <ul class="navbar-nav nav main-nav">
-            <li><a href="./index.html">Home</a></li>
-            <li><a href="./country.html">País</a></li>
-          </ul>
+        <div class="row">
+            <div class="card col-4">
+                <div class="containerkpi wrapkpi">
+                    <section class="itemkpi">
+                        <h5>Total Confirmados</h5>
+                        <p id="confirmed"></p>
+                    </section>
+                    <section class="itemkpi">
+                        <h5>Total Mortes</h5>
+                        <p id="death"></p>
+                    </section>
+                    <section class="itemkpi">
+                        <h5>Total Recuperados</h5>
+                        <p id="recovered"></p>
+                    </section>
+                </div>
+                <div class="chart-notes" id="date">Data de atualização: <span id="today"></span></div>
+            </div>
+            <div class="card col-7">
+                <div class="chart-stage">
+                    <canvas id="pizza" width="100" height="50"></canvas>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <div class="container grid grid-two-and-one">
-      <div class="chart-wrapper">
-        <div class="containerkpi wrapkpi">
-          <section class="itemkpi">
-            <h5>Total Confirmados</h5>
-            <p id="confirmed"></p>
-          </section>
-          <section class="itemkpi">
-            <h5>Total Mortes</h5>
-            <p id="death"></p>
-          </section>
-          <section class="itemkpi">
-            <h5>Total Recuperados</h5>
-            <p id="recovered"></p>
-          </section>
+        <div class="row">
+            <div class="card col-12">
+                <canvas id="barras" width="300" height="100"></canvas>
+            </div>
         </div>
-        <div class="chart-notes" id="date">Data de atualização: <span id="today"></span></div>
-      </div>
-      <div class="chart-wrapper">
-        <div class="chart-stage">
-          <canvas id="pizza" width="100" height="50"></canvas>
-          <!--Adicionar grafico-->
-        </div>
-      </div>
-      <div class="two">
-        <div class="chart-wrapper">
-          <div class="chart-stage">
-            <!--Adicionar grafico-->
-            <canvas id="barras" width="300" height="100"></canvas>
-          </div>
-        </div>
-      </div>
     </div>
+    
     <script src="./assets/js/index.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>
 </html>
