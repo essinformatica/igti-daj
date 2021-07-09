@@ -15,8 +15,9 @@ const getCountries = async () => {
     countries.forEach((item) => {
         const option = document.createElement('option');
         option.textContent = item;
+        option.value = item;
         
-        const selectCountry = document.getElementById('cmbCountry');
+        const selectCountry = document.getElementById('selectCountry');
         
         selectCountry.appendChild(option);
 
@@ -27,35 +28,77 @@ const getCountries = async () => {
 };
 
 const updatedCountryTotal = async (lastData) => {
-    const deaths = document.getElementById('kpideaths');
-    const recovered = document.getElementById('kpirecovered');
-    const confirmed = document.getElementById('kpiconfirmed');
+    const deaths = document.getElementById('totalDeaths');
+    const recovered = document.getElementById('totalRecovered');
+    const confirmed = document.getElementById('totalConfirmed');
 
     deaths.innerText = parseFloat(lastData.Deaths).toLocaleString('br');
     recovered.innerText = parseFloat(lastData.Recovered).toLocaleString('br');
     confirmed.innerText = parseFloat(lastData.Confirmed).toLocaleString('br');
 }
+const getCountryData = async (startDate, endDate, country = 'Brazil') => {
+    const result = await getData(`country/${country}?from=${startDate}&to=${endDate}`);
 
-const getCountryData = async (country = 'Brazil', startDate = new Date('2020-01-01'), endDate = new Date()) => {
-    
-    console.log(country);
+    console.log(result)
 
-    const result = await getData(`country/${country}?from=${startDate.toISOString()}&to=${endDate.toISOString()}`);
+    const totalDeaths = result.forEach((item) => {
+        console.log(item.Deaths);
+    })
 
-    updatedCountryTotal(result[result.length - 1]);
+    await updatedCountryTotal(result[result.length - 1]);
+    await loadChart();
 } 
 
 const updateData = () => {
-    const startDate = document.getElementById('date_start');
-    const country = document.getElementById('cmbCountry');
-    const endDate = document.getElementById('date_end');
+    const endDate = document.getElementById('dateEnd');
+    const startDate = document.getElementById('dateStart');
+    const country = document.getElementById('selectCountry');
 
-    getCountryData(country.value);
+    if(!country.value) {
+        getCountryData(
+            new Date(startDate.value).toISOString(), 
+            new Date(endDate.value).toISOString(), 
+        );
+    } else {
+        getCountryData(
+            new Date(startDate.value).toISOString(), 
+            new Date(endDate.value).toISOString(), 
+            country.value,
+        );
+    }
 }
 
-// const loadDefaultValues = () => {
-//     country = 'Brazil', startDate = new Date('2020-01-01'), endDate = new Date()
-// }
+const loadDefaultDateValues = () => {
+    const startDate = document.getElementById('dateStart');
+    const endDate = document.getElementById('dateEnd');
 
+    startDate.value = new Date().toISOString().substring(0, 10);
+    endDate.value = new Date().toISOString().substring(0, 10);
+}
+
+const loadChart = async (xDays, yNumbers) => {
+    new Chart(document.getElementById('linhas'), {
+        type: 'line',
+        data: {
+            labels: xDays,
+            datasets: [{
+                label: 'Número de Mortes',
+                data: yNumbers,
+                backgroundColor: ['rgb(255, 116, 0)']
+            }]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Curva Diária de Covid-19'
+                }
+            }
+        }
+    });
+}
+
+window.addEventListener('load', loadDefaultDateValues());
 window.addEventListener('load', getCountries());
-window.addEventListener('load', getCountryData());
+window.addEventListener('load', updateData());
+// window.addEventListener('load', loadChart());

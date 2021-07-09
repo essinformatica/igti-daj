@@ -1,0 +1,22 @@
+.row {
+    margin-top: 30px;
+    justify-content: space-between;
+}
+
+.card-total-data {
+    padding-top: 20px;
+    text-align: center;
+}
+
+.total-data-title {
+    font-size: 15px;
+}
+
+.card-body p {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.jumbotron {
+    padding: 30px;
+}
