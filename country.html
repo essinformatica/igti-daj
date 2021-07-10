@@ -2,23 +2,24 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Números de Covid por país</title>
 
-    <!-- Demo Dependencies -->
+    <!--
+        Alisson William Mendes Boucinhas
+        Jonathan Henning
+        Ivanna Oliveira
+        Rafael Sousa da Silva
+        Edmar Souza da Silva
+    -->
+
+    <title>Números da Covid</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 
-    <!-- <link
-      rel="stylesheet"
-      type="text/css"
-      href="./assets/css/keen-dashboards.css"
-    /> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/css/style.css" />  
 </head>
 
   <body class="keen-dashboard">
@@ -28,15 +29,21 @@
         </button>
         <div class="collapse navbar-collapse container" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" href="./index.html">Home</a>
-                <a class="nav-item nav-link" href="./country.html">Country</a>
+                <a class="nav-item nav-link" href="./index.html"><i class="fas fa-globe"></i> Global</a>
+                <a class="nav-item nav-link active" href="./country.html"><i class="far fa-flag"></i> Por País</a>
             </div>
         </div>
     </nav>
 
+    <div id="loading" class="d-flex flex-column justify-content-center">
+        <div class="mx-auto">
+            <i class="fas fa-circle-notch rotating"></i>
+        </div>
+    </div>
+
     <div class="container">
         <div class="row">
-            <div class="card form-filter col-3">
+            <div class="card form-filter col-3 bg-light">
                 <div class="card-body">
                     <h4 class="card-title">Filtros</h4>
                     <form>
@@ -60,40 +67,37 @@
                                 <option value="Recovered">Recuperados</option>
                             </select>
                         </div>
-                        <button class="btn btn-primary btn-block">
+                        <button type="button" class="btn btn-primary btn-block" id="aplicar">
                             Aplicar
                         </button>
                     </form>
                 </div>
             </div>
-            <div class="card chart col-8">
-                <canvas id="linhas" width="300" height="100"></canvas>
+            <div class="card chart col-8 p-4 bg-light">
+                <h5 class="text-center mb-3"><i class="fas fa-chart-line"></i> Curva diária de Covid-19</h5>
+                <canvas id="linhas"></canvas>
             </div>
         </div>
-        <div class="row jumbotron">
-            <div class="card card-total-data col-3">
-                <h5 class="total-data-title">Total de Confirmados</h5>
-                <div class="card-body">
-                    <p id="totalConfirmed"></p>
+        <div class="row card bg-light p-4">
+            <div class="card d-flex flex-row pt-4">
+                <div class="text-center col-4">
+                    <h5><i class="fas fa-clipboard-check"></i> Total Confirmados</h5>
+                    <p id="totalConfirmed" class="badge badge-warning"></p>
                 </div>
-            </div>
-            <div class="card card-total-data col-3">
-                <h5 class="total-data-title">Total de Mortes</h5>
-                <div class="card-body">
-                    <p id="totalDeaths"></p>
+                <div class="text-center col-4">
+                    <h5><i class="fas fa-cross"></i> Total Mortes</h5>
+                    <p id="totalDeaths" class="badge badge-danger"></p>
                 </div>
-            </div>
-            <div class="card card-total-data col-3">
-                <h5 class="total-data-title">Total de Recuperados</h5>
-                <div class="card-body">
-                    <p id="totalRecovered"></p>
+                <div class="text-center col-4">
+                    <h5><i class="fas fa-user-shield"></i> Total Recuperados</h5>
+                    <p id="totalRecovered" class="badge badge-primary"></p>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Project Analytics -->
-    <script src="./assets/js/country.js"></script>
+    <script src="./assets/js/country.js" type="module"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

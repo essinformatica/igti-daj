@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!--
         Alisson William Mendes Boucinhas
@@ -14,18 +15,12 @@
     <title>Números da Covid</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-<!-- 
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="./assets/css/keen-dashboards.css"
-    /> -->
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="./assets/css/style.css" />  
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
 
   <body class="dashboard">
@@ -35,46 +30,54 @@
         </button>
         <div class="collapse navbar-collapse container" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" href="./index.html">Home</a>
-                <a class="nav-item nav-link" href="./country.html">Country</a>
+                <a class="nav-item nav-link active" href="./index.html"><i class="fas fa-globe"></i> Global</a>
+                <a class="nav-item nav-link" href="./country.html"><i class="far fa-flag"></i> Por País</a>
             </div>
         </div>
     </nav>
 
+    <div id="loading" class="d-flex flex-column justify-content-center">
+        <div class="mx-auto">
+            <i class="fas fa-circle-notch rotating"></i>
+        </div>
+    </div>
+
     <div class="container">
         <div class="row">
-            <div class="card col-4">
-                <div class="containerkpi wrapkpi">
-                    <section class="itemkpi">
-                        <h5>Total Confirmados</h5>
-                        <p id="confirmed"></p>
+            <div class="col-4 card d-flex flex-column justify-content-between bg-light">
+                <div>
+                    <section class="mt-4 text-center">
+                        <h5><i class="fas fa-clipboard-check"></i> Total Confirmados</h5>
+                        <p id="confirmed" class="badge badge-warning"></p>
                     </section>
-                    <section class="itemkpi">
-                        <h5>Total Mortes</h5>
-                        <p id="death"></p>
+                    <section class="text-center">
+                        <h5><i class="fas fa-cross"></i> Total Mortes</h5>
+                        <p id="death" class="badge badge-danger"></p>
                     </section>
-                    <section class="itemkpi">
-                        <h5>Total Recuperados</h5>
-                        <p id="recovered"></p>
+                    <section class="text-center">
+                        <h5><i class="fas fa-user-shield"></i> Total Recuperados</h5>
+                        <p id="recovered" class="badge badge-primary"></p>
                     </section>
                 </div>
-                <div class="chart-notes" id="date">Data de atualização: <span id="today"></span></div>
+                <div id="date" class="mb-3 text-center">Data de atualização: <span id="today"></span></div>
             </div>
-            <div class="card col-7">
-                <div class="chart-stage">
-                    <canvas id="pizza" width="100" height="50"></canvas>
+            <div class="card col-7 bg-light">
+                <div class="p-4">
+                    <h5 class="text-center mb-3"><i class="fas fa-user-plus"></i> Distribuição de novos casos</h5>
+                    <canvas id="pizza"></canvas>
                 </div>
             </div>
         </div>
 
         <div class="row">
-            <div class="card col-12">
-                <canvas id="barras" width="300" height="100"></canvas>
+            <div class="card col-12 py-4 px-5 bg-light">
+                <h5 class="text-center mb-3"><i class="fas fa-chart-line"></i> Total de mortes por país (top 10)</h5>
+                <canvas id="barras"></canvas>
             </div>
         </div>
     </div>
-    
-    <script src="./assets/js/index.js"></script>
+
+    <script src="./assets/js/index.js" type="module"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
