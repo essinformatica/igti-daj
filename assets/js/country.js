@@ -51,35 +51,56 @@ const getCountryData = async (startDate, endDate, type, country = 'brazil') => {
 
         loading.classList.add("d-flex");
         loading.classList.remove("d-none");
-
     }
+
+    const days = _.uniqBy(result, 'Date');
+
+    // To sum when separated provinces
+    const summedResult = _.map(days, day => {
+        return {
+            Date: day.Date,
+            Deaths: _.sumBy(result, item => {
+                return item.Date === day.Date ? item.Deaths : 0;
+            }),
+            Recovered: _.sumBy(result, item => {
+                return item.Date === day.Date ? item.Recovered : 0;
+            }),
+            Confirmed: _.sumBy(result, item => {
+                return item.Date === day.Date ? item.Confirmed : 0;
+            }),
+        }
+    });
 
     let typeName = '';
 
-    let chart = result.map(item => {
+    let chart = summedResult.map((item, index) => {
         var date = new Date(item.Date);
         var offset = date.getTimezoneOffset();
         date.setTime(date.getTime() + offset*60*1000);
         date = date.getDate().toString().padStart(2, '0') + '/' + (date.getMonth() + 1).toString().padStart(2, '0') + '/' + date.getFullYear();
+
+        if(index == 0) {
+            return null;
+        }
 
         switch(type) {
             case 'Deaths':
                 typeName = 'Óbitos';
                 return {
                     day: date,
-                    value: item.Deaths
+                    value: item.Deaths - result[index-1].Deaths
                 };
             case 'Recovered':
                 typeName = 'Recuperados'
                 return {
                     day: date,
-                    value: item.Recovered
+                    value: item.Recovered - result[index-1].Recovered
                 };
             case 'Confirmed':
                 typeName = 'Casos Confirmados'
                 return {
                     day: date,
-                    value: item.Confirmed
+                    value: item.Confirmed - result[index-1].Confirmed
                 };
             default:
                 return {
@@ -87,11 +108,13 @@ const getCountryData = async (startDate, endDate, type, country = 'brazil') => {
                     value: null
                 };
         }
-    })
+    });
 
-    const avarage = chart.reduce((acc, item) => acc + item.value, 0) / chart.length;
+    chart.shift(); // Remove first element (only used for calculus purpose)
+
+    const average = _.meanBy(chart, (c) => c.value);
     
-    chart = chart.map(item => { return {...item, avarage} } )
+    chart = chart.map(item => { return {...item, average} } )
 
     await loadChart(chart, typeName);
 } 
@@ -110,7 +133,8 @@ const updateData = () => {
     const country = document.getElementById('selectCountry').value;
     const type = document.getElementById('selectData').value;
 
-    endDate.setTime(endDate.getTime() + (24*60*60*1000)-1000);
+    endDate.setTime(endDate.getTime() + (24*60*60*1000)-1000); // Get the full day (up to 23:59:59)
+    startDate.setTime(startDate.getTime() - (24*60*60*1000)); // Get an extra day to calculate only the numbers of the day
 
     if(!country) {
         getCountryData(
@@ -147,7 +171,7 @@ let chart = null;
 const loadChart = async (data, type) => {
     const xDays = data.map(item => item.day);
     const yNumbers = data.map(item => item.value);
-    const yAvarage = data.map(item => item.avarage);
+    const yAverage = data.map(item => item.average);
 
     if(chart !== null)
         chart.destroy();
@@ -165,7 +189,7 @@ const loadChart = async (data, type) => {
                 },
                 {
                     label: 'Média de '+type,
-                    data: yAvarage,
+                    data: yAverage,
                     borderColor: '#ffc107',
                     backgroundColor: '#ffc107',
                     pointRadius: 0
